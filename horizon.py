@@ -34,7 +34,8 @@ def fr2(r1,r2,theta,M):
         return 0
     else:
         return value
-def time(r0,M):
+#integration method
+def shooting(r0,M):
     ntheta=600
     
     r10=r0
@@ -69,3 +70,37 @@ def time(r0,M):
         
         thetan=thetan+dtheta
     return theta,r1,r2[-1]
+#bisection method
+def find(ra1,ra2,M):
+    i=0
+    tol=0.00001
+    N=100
+    while(i<N):
+         theta1,r1,value1=shooting(ra1,M)
+         if(np.abs(value1)<tol):
+             print(ra1)
+             return theta1,r1
+         theta2,r2,value2=shooting(ra2,M)
+         if(np.abs(value2)<tol):
+             print(ra2)
+             return theta2,r2
+         
+         if(value1*value2 < tol):
+             ra3=(ra1+ra2)/2
+             theta3,r3,value3=shooting(ra3,M)
+            
+             if(np.abs(value3)<tol):
+                print(ra3)
+                return theta3,r3
+             if(value1*value3 < 0):
+                ra2=ra3
+             if(value2*value3 < 0):
+                ra1=ra3
+         else:
+             print("try other initial values for your search!") 
+             return theta1*0,r1*0
+            
+         i=i+1
+    print("Reached maximum number of iterations N={0:.0f}!".format(N))
+    theta1,r1,value1=shooting(ra1,M)
+    return theta1*0,r1*0
