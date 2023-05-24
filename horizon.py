@@ -9,7 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 #Brill-Lindquist
 
-#One black hole 
+#one black hole 
+"""
 def fpsi(theta,r,M):
     return 1+M/(2*r)
 
@@ -18,6 +19,18 @@ def drfpsi(theta,r,M):
 
 def dthetafpsi(theta,r,M):
     return 0
+"""
+#two black holes with same mass
+
+def fpsi(theta,r,M):
+    return 1+0.5*M/np.sqrt(r**2+2*0.75*r*np.cos(theta)+(0.75)**2)+0.5*M/np.sqrt(r**2-2*0.75*r*np.cos(theta)+(0.75)**2)
+
+def drfpsi(theta,r,M):
+    return -0.5*M/np.sqrt(r**2+2*0.75*r*np.cos(theta)+(0.75)**2)**3*(r+0.75*np.cos(theta))-0.5*M/np.sqrt(r**2-2*0.75*r*np.cos(theta)+(0.75)**2)**3*(r-0.75*np.cos(theta))
+
+def dthetafpsi(theta,r,M):
+    return 0.5*M/np.sqrt(r**2+2*0.75*r*np.cos(theta)+(0.75)**2)**3*(0.75*r*np.sin(theta))-0.5*M/np.sqrt(r**2-2*0.75*r*np.cos(theta)+(0.75)**2)**3*(0.75*r*np.sin(theta))
+
 def fr1(r1,r2,theta,M):
     return r2
 
@@ -105,18 +118,24 @@ def find(ra1,ra2,M):
     theta1,r1,value1=shooting(ra1,M)
     return theta1*0,r1*0
 
-theta,r=find(0.505,0.495,1)  #one black hole
+#theta,r=find(0.505,0.495,1)  #one black hole
+theta,r=find(1.27,1.28,1)  #two black holes with same mass
 
 fig, ax = plt.subplots(figsize=(6,5))
 ax.plot(r*np.sin(theta),r*np.cos(theta),"-",linewidth=3.0,color='blue')
 ax.plot(-r*np.sin(theta),r*np.cos(theta),":",linewidth=3.0,color='blue')
 #one black hole
-plt.plot(0, 0, marker="o", markersize=20, markerfacecolor="k")
-ax.set_xlim(-0.6,0.6)
-ax.set_ylim(-0.6,0.6)
+#plt.plot(0, 0, marker="o", markersize=20, markerfacecolor="k")
+#ax.set_xlim(-0.6,0.6)
+#ax.set_ylim(-0.6,0.6)
+#two black holes with same mass
+plt.plot(0, -0.75, marker="o", markersize=20, markerfacecolor="k")
+plt.plot(0, 0.75, marker="o", markersize=20, markerfacecolor="k")
+ax.set_xlim(-0.8,0.8)
+ax.set_ylim(-1.4,1.4)
 plt.xlabel("x",fontsize=19) 
 plt.ylabel(r'z',fontsize=19,rotation=0)
 plt.xticks(fontsize= 14) 
 plt.yticks(fontsize= 14) 
-plt.savefig('figures/1blackhole.png',dpi=100)
+plt.savefig('figures/2blackholes.png',dpi=100)
 plt.show()   
