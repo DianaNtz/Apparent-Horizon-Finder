@@ -104,3 +104,19 @@ def find(ra1,ra2,M):
     print("Reached maximum number of iterations N={0:.0f}!".format(N))
     theta1,r1,value1=shooting(ra1,M)
     return theta1*0,r1*0
+
+theta,r=find(0.505,0.495,1)  #one black hole
+
+fig, ax = plt.subplots(figsize=(6,5))
+ax.plot(r*np.sin(theta),r*np.cos(theta),"-",linewidth=3.0,color='blue')
+ax.plot(-r*np.sin(theta),r*np.cos(theta),":",linewidth=3.0,color='blue')
+#one black hole
+plt.plot(0, 0, marker="o", markersize=20, markerfacecolor="k")
+ax.set_xlim(-0.6,0.6)
+ax.set_ylim(-0.6,0.6)
+plt.xlabel("x",fontsize=19) 
+plt.ylabel(r'z',fontsize=19,rotation=0)
+plt.xticks(fontsize= 14) 
+plt.yticks(fontsize= 14) 
+plt.savefig('figures/1blackhole.png',dpi=100)
+plt.show()   
