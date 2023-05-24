@@ -34,3 +34,38 @@ def fr2(r1,r2,theta,M):
         return 0
     else:
         return value
+def time(r0,M):
+    ntheta=600
+    
+    r10=r0
+    r20=0
+    
+    theta0=0
+    thetafinal=np.pi
+    dtheta=(thetafinal-theta0)/(ntheta-1)
+    
+    
+    theta=np.zeros(ntheta)
+    r1=np.zeros(ntheta)
+    r2=np.zeros(ntheta)
+    
+    thetan=theta0
+    r1n=r10
+    r2n=r20
+    for j in range(0,ntheta):
+        theta[j]=thetan
+        r1[j]=r1n
+        r2[j]=r2n
+        
+        k1r1=dtheta*fr1(r1n,r2n,thetan,M)
+        k1r2=dtheta*fr2(r1n,r2n,thetan,M)
+        
+        k2r1=dtheta*fr1(r1n+0.5*k1r1,r2n+0.5*k1r2,thetan+0.5*dtheta,M)
+        k2r2=dtheta*fr2(r1n+0.5*k1r1,r2n+0.5*k1r2,thetan+0.5*dtheta,M)
+        
+        r1n=r1n+k2r1
+        r2n=r2n+k2r2
+        
+        
+        thetan=thetan+dtheta
+    return theta,r1,r2[-1]
