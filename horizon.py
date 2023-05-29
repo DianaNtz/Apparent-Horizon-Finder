@@ -50,7 +50,6 @@ def drfpsi(theta,h,M):
 def dthetafpsi(theta,h,M):
     return 0
 """
-
 #two black holes with same mass
 """
 def fpsi(theta,r,M):
@@ -62,8 +61,8 @@ def drfpsi(theta,r,M):
 def dthetafpsi(theta,r,M):
     return 0.5*M/np.sqrt(r**2+2*s*r*np.cos(theta)+(s)**2)**3*(s*r*np.sin(theta))-0.5*M/np.sqrt(r**2-2*s*r*np.cos(theta)+(s)**2)**3*(s*r*np.sin(theta))
 """
-
 #two black holes with different mass
+
 def fpsi(theta,r,M):
     return 1+0.5*M*0.8/np.sqrt(r**2+2*0*r*np.cos(theta)+(0)**2)+0.5*M*0.2/np.sqrt(r**2-2*0.65*r*np.cos(theta)+(0.65)**2)
 
@@ -93,10 +92,13 @@ for k in range(0,60000*4+1):
         phi = np.linspace(0, 2.0*np.pi, 200)
         T,P=np.meshgrid(theta, phi)
         
-        fig = plt.figure(figsize=(10,10))
+        fig = plt.figure(constrained_layout=True,figsize=(10,10))
         ax = fig.add_subplot(projection='3d')
         ax.plot_surface(h*np.sin(T)*np.cos(P),h*np.sin(T)*np.sin(P),h*np.cos(T),  rstride=1, cstride=1,cmap='seismic')
         ax.view_init(30,90)
+        ax.zaxis.set_tick_params(labelsize=15)
+        ax.yaxis.set_tick_params(labelsize=15)
+        ax.xaxis.set_tick_params(labelsize=15)
         filename ='bla{0:.0f}.png'.format(int(k/1500))
         #append file name to the list filename
         filenames.append(filename)    
