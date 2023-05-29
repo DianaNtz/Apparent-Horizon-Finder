@@ -35,3 +35,12 @@ theta=np.linspace(theta0,thetafinal,n)
 
 h=0.5*theta**2+2
 M=1
+
+#one black hole 
+
+def fpsi(theta,h,M):
+    return 1+M/(2*h)
+def drfpsi(theta,h,M):
+    return -M/(2*h**2)
+def dthetafpsi(theta,h,M):
+    return 0
