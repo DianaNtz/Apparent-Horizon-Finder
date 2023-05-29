@@ -52,3 +52,19 @@ def THETA(h,theta):
     C=1/np.sqrt(1+d1**2/h**2)
     T=C**3/(Fpsi**2*h**2)*(-d2+2*h-d1*(1+(d1/h)**2)*(np.cos(theta)/np.sin(theta))+4*h**2*(1+(d1/h)**2)/Fpsi*(drfpsi(theta,h,M)-(1/h**2)*d1*dthetafpsi(theta,h,M))+3*d1**2/h)
     return -T*C*Fpsi**(-2)
+
+#integration method
+dlambda=0.025*dtheta
+for k in range(0,60000*3+1):#+1500*150
+    k1=dlambda*THETA(h,theta)
+    h=h+k1
+   
+phi = np.linspace(0, 2.0*np.pi, 200)
+T,P=np.meshgrid(theta, phi)
+
+fig = plt.figure(figsize=(10,10))
+ax = fig.add_subplot(projection='3d')
+ax.plot_surface(h*np.sin(T)*np.cos(P),h*np.sin(T)*np.sin(P),h*np.cos(T),  rstride=1, cstride=1,cmap='seismic')
+ax.view_init(30,90)
+plt.show()
+    
