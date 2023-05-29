@@ -83,7 +83,7 @@ def THETA(h,theta):
 
 #integration method
 dlambda=0.025*dtheta
-for k in range(0,60000*4+1):
+for k in range(0,60000*6+1):
     k1=dlambda*THETA(h,theta)
     h=h+k1
     if(k%1500==0):
@@ -92,13 +92,18 @@ for k in range(0,60000*4+1):
         phi = np.linspace(0, 2.0*np.pi, 200)
         T,P=np.meshgrid(theta, phi)
         
-        fig = plt.figure(constrained_layout=True,figsize=(10,10))
+        fig = plt.figure(constrained_layout=True,figsize=(6,6))
         ax = fig.add_subplot(projection='3d')
         ax.plot_surface(h*np.sin(T)*np.cos(P),h*np.sin(T)*np.sin(P),h*np.cos(T),  rstride=1, cstride=1,cmap='seismic')
         ax.view_init(30,90)
-        ax.zaxis.set_tick_params(labelsize=15)
-        ax.yaxis.set_tick_params(labelsize=15)
-        ax.xaxis.set_tick_params(labelsize=15)
+        #ax.set_xlabel("x",fontsize= 19)
+        #ax.set_ylabel("y",fontsize= 19)
+        #ax.set_zlabel("z",fontsize= 19)
+        ax.zaxis.set_tick_params(labelsize=18,pad=7)
+        ax.yaxis.set_tick_params(labelsize=18,pad=7)
+        ax.xaxis.set_tick_params(labelsize=18)
+        stringtitle="λ=".__add__(str(round(k,0))).__add__("dλ")
+        plt.title(stringtitle,fontsize=20,x=0.5, y=0.95)
         filename ='bla{0:.0f}.png'.format(int(k/1500))
         #append file name to the list filename
         filenames.append(filename)    
@@ -106,9 +111,10 @@ for k in range(0,60000*4+1):
         plt.savefig(filename,dpi=100)
         plt.close()
         #plt.show()
+   
         
 #build the gif
-with imageio.get_writer('figures/twoblackholesdifferentmass.gif', mode='I') as writer:
+with imageio.get_writer('figures/twoblackholesdifferentmassneu.gif', mode='I') as writer:
     for filename in filenames:
         image = imageio.imread(filename)
         writer.append_data(image)       
