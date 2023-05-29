@@ -50,7 +50,9 @@ def drfpsi(theta,h,M):
 def dthetafpsi(theta,h,M):
     return 0
 """
-#two black holes same mass
+
+#two black holes with same mass
+"""
 def fpsi(theta,r,M):
     return 1+0.5*M/np.sqrt(r**2+2*s*r*np.cos(theta)+(s)**2)+0.5*M/np.sqrt(r**2-2*s*r*np.cos(theta)+(s)**2)
 
@@ -59,6 +61,17 @@ def drfpsi(theta,r,M):
 
 def dthetafpsi(theta,r,M):
     return 0.5*M/np.sqrt(r**2+2*s*r*np.cos(theta)+(s)**2)**3*(s*r*np.sin(theta))-0.5*M/np.sqrt(r**2-2*s*r*np.cos(theta)+(s)**2)**3*(s*r*np.sin(theta))
+"""
+
+#two black holes with different mass
+def fpsi(theta,r,M):
+    return 1+0.5*M*0.8/np.sqrt(r**2+2*0*r*np.cos(theta)+(0)**2)+0.5*M*0.2/np.sqrt(r**2-2*0.65*r*np.cos(theta)+(0.65)**2)
+
+def drfpsi(theta,r,M):
+    return -0.5*M*0.8/np.sqrt(r**2+2*0*r*np.cos(theta)+(0)**2)**3*(r+0*np.cos(theta))-0.5*M*0.2/np.sqrt(r**2-2*0.65*r*np.cos(theta)+(0.65)**2)**3*(r-0.65*np.cos(theta))
+
+def dthetafpsi(theta,r,M):
+    return 0.5*M*0.8/np.sqrt(r**2+2*0*r*np.cos(theta)+(0)**2)**3*(0*r*np.sin(theta))+0.5*M*0.2/np.sqrt(r**2-2*0.65*r*np.cos(theta)+(0.65)**2)**3*(-0.65*r*np.sin(theta))
 
 #expansion THETA
 def THETA(h,theta):
@@ -71,7 +84,7 @@ def THETA(h,theta):
 
 #integration method
 dlambda=0.025*dtheta
-for k in range(0,60000*6+1):
+for k in range(0,60000*4+1):
     k1=dlambda*THETA(h,theta)
     h=h+k1
     if(k%1500==0):
@@ -93,7 +106,7 @@ for k in range(0,60000*6+1):
         #plt.show()
         
 #build the gif
-with imageio.get_writer('figures/twoblackholessamemass.gif', mode='I') as writer:
+with imageio.get_writer('figures/twoblackholesdifferentmass.gif', mode='I') as writer:
     for filename in filenames:
         image = imageio.imread(filename)
         writer.append_data(image)       
