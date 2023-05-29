@@ -37,15 +37,28 @@ dtheta=(thetafinal-theta0)/(n-1)
 theta=np.linspace(theta0,thetafinal,n)
 
 h=0.5*theta**2+2
-M=1
 
+#Brill-Lindquist
+M=1
+s=0.75
 #one black hole 
+"""
 def fpsi(theta,h,M):
     return 1+M/(2*h)
 def drfpsi(theta,h,M):
     return -M/(2*h**2)
 def dthetafpsi(theta,h,M):
     return 0
+"""
+#two black holes same mass
+def fpsi(theta,r,M):
+    return 1+0.5*M/np.sqrt(r**2+2*s*r*np.cos(theta)+(s)**2)+0.5*M/np.sqrt(r**2-2*s*r*np.cos(theta)+(s)**2)
+
+def drfpsi(theta,r,M):
+    return -0.5*M/np.sqrt(r**2+2*s*r*np.cos(theta)+(s)**2)**3*(r+s*np.cos(theta))-0.5*M/np.sqrt(r**2-2*s*r*np.cos(theta)+(s)**2)**3*(r-s*np.cos(theta))
+
+def dthetafpsi(theta,r,M):
+    return 0.5*M/np.sqrt(r**2+2*s*r*np.cos(theta)+(s)**2)**3*(s*r*np.sin(theta))-0.5*M/np.sqrt(r**2-2*s*r*np.cos(theta)+(s)**2)**3*(s*r*np.sin(theta))
 
 #expansion THETA
 def THETA(h,theta):
@@ -58,7 +71,7 @@ def THETA(h,theta):
 
 #integration method
 dlambda=0.025*dtheta
-for k in range(0,60000*3+1):#+1500*150
+for k in range(0,60000*6+1):
     k1=dlambda*THETA(h,theta)
     h=h+k1
     if(k%1500==0):
@@ -80,7 +93,7 @@ for k in range(0,60000*3+1):#+1500*150
         #plt.show()
         
 #build the gif
-with imageio.get_writer('figures/oneblackhole.gif', mode='I') as writer:
+with imageio.get_writer('figures/twoblackholessamemass.gif', mode='I') as writer:
     for filename in filenames:
         image = imageio.imread(filename)
         writer.append_data(image)       
