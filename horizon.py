@@ -37,10 +37,18 @@ h=0.5*theta**2+2
 M=1
 
 #one black hole 
-
 def fpsi(theta,h,M):
     return 1+M/(2*h)
 def drfpsi(theta,h,M):
     return -M/(2*h**2)
 def dthetafpsi(theta,h,M):
     return 0
+
+#expansion THETA
+def THETA(h,theta):
+    d1=d1theta(h,theta)
+    d2=d2theta(h,theta)
+    Fpsi=fpsi(theta,h,M)
+    C=1/np.sqrt(1+d1**2/h**2)
+    T=C**3/(Fpsi**2*h**2)*(-d2+2*h-d1*(1+(d1/h)**2)*(np.cos(theta)/np.sin(theta))+4*h**2*(1+(d1/h)**2)/Fpsi*(drfpsi(theta,h,M)-(1/h**2)*d1*dthetafpsi(theta,h,M))+3*d1**2/h)
+    return -T*C*Fpsi**(-2)
