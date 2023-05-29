@@ -6,6 +6,9 @@ method which solves an elliptic PDE by transforming it into a hyperbolic equatio
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import imageio
+import os
+filenames = []
 
 n=100
 
@@ -58,6 +61,32 @@ dlambda=0.025*dtheta
 for k in range(0,60000*3+1):#+1500*150
     k1=dlambda*THETA(h,theta)
     h=h+k1
+    if(k%1500==0):
+        print(k)
+        
+        phi = np.linspace(0, 2.0*np.pi, 200)
+        T,P=np.meshgrid(theta, phi)
+        
+        fig = plt.figure(figsize=(10,10))
+        ax = fig.add_subplot(projection='3d')
+        ax.plot_surface(h*np.sin(T)*np.cos(P),h*np.sin(T)*np.sin(P),h*np.cos(T),  rstride=1, cstride=1,cmap='seismic')
+        ax.view_init(30,90)
+        filename ='bla{0:.0f}.png'.format(int(k/1500))
+        #append file name to the list filename
+        filenames.append(filename)    
+        #save the plot
+        plt.savefig(filename,dpi=100)
+        plt.close()
+        #plt.show()
+        
+#build the gif
+with imageio.get_writer('figures/oneblackhole.gif', mode='I') as writer:
+    for filename in filenames:
+        image = imageio.imread(filename)
+        writer.append_data(image)       
+#remove saved figures 
+for filename in set(filenames):
+    os.remove(filename)  
    
 phi = np.linspace(0, 2.0*np.pi, 200)
 T,P=np.meshgrid(theta, phi)
