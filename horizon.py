@@ -25,5 +25,13 @@ def d1theta(D,theta):
     for j in range(0,n):
                  if(j!=0 and j!=n-1):
                      Dx[j]=(D[j+1]-D[j-1])/(2*dtheta)
-    return Dx  
+    return Dx
+  
+#initial guess surface
+theta0=0.000001
+thetafinal=np.pi-0.000001
+dtheta=(thetafinal-theta0)/(n-1)
+theta=np.linspace(theta0,thetafinal,n)
 
+h=0.5*theta**2+2
+M=1
